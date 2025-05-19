@@ -4,7 +4,7 @@
   "settings": {
     "width": 2000,
     "height": 2000,
-    "scrollTop": -1089.3807,
+    "scrollTop": -425,
     "scrollLeft": -236.7793,
     "zoomLevel": 0.91,
     "show": 437,
@@ -115,7 +115,7 @@
       },
       "rrC4dWR3DHd-fR80Mq3V8": {
         "id": "rrC4dWR3DHd-fR80Mq3V8",
-        "name": "user",
+        "name": "customer",
         "comment": "",
         "columnIds": [
           "Bhp6TZHpD3Wzpbqlqi3DR",
@@ -142,7 +142,7 @@
           "color": ""
         },
         "meta": {
-          "updateAt": 1747339035243,
+          "updateAt": 1747422660364,
           "createAt": 1747335471224
         }
       },
@@ -756,20 +756,20 @@
       "6s8lw55AQDGdLbW9k8SVa": {
         "id": "6s8lw55AQDGdLbW9k8SVa",
         "tableId": "4MdC5VfvyLMCMuA-YWrHc",
-        "name": "user_id",
+        "name": "customer_id",
         "comment": "",
         "dataType": "int",
         "default": "",
         "options": 8,
         "ui": {
           "keys": 2,
-          "widthName": 60,
+          "widthName": 66,
           "widthComment": 60,
           "widthDataType": 60,
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1747337392099,
+          "updateAt": 1747422665921,
           "createAt": 1747336845366
         }
       },
@@ -1515,34 +1515,6 @@
       }
     },
     "relationshipEntities": {
-      "CTxdFBjk7MDTxCVcpB0Vi": {
-        "id": "CTxdFBjk7MDTxCVcpB0Vi",
-        "identification": false,
-        "relationshipType": 4,
-        "startRelationshipType": 2,
-        "start": {
-          "tableId": "JRI_uxJBnueXcsYsno4Nx",
-          "columnIds": [
-            "jXMjzgCoyGgt5d0YYSJlw"
-          ],
-          "x": 920.167,
-          "y": 1000.3608,
-          "direction": 2
-        },
-        "end": {
-          "tableId": "rrC4dWR3DHd-fR80Mq3V8",
-          "columnIds": [
-            "exG6KMAJZtG_ofzJnqaEj"
-          ],
-          "x": 1118.6068775202816,
-          "y": 1011.1359116736094,
-          "direction": 1
-        },
-        "meta": {
-          "updateAt": 1747335669385,
-          "createAt": 1747335652383
-        }
-      },
       "vs8NbVuMVSeD8dDrvNxL8": {
         "id": "vs8NbVuMVSeD8dDrvNxL8",
         "identification": false,
