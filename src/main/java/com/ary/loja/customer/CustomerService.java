@@ -57,7 +57,7 @@ public class CustomerService {
             throw new IllegalStateException("Customer with ID "+ id +" does not exist.");
         }
 
-        Optional<Customer> emailExists = customerRepository.findStudentByEmail(email);
+        Optional<Customer> emailExists = customerRepository.findCustomerByEmail(email);
 
         
         if(email != null && email.length() > 0 && !Objects.equals(email, customer.getEmail())){
