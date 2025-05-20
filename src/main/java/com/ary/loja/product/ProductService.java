@@ -3,6 +3,7 @@ package com.ary.loja.product;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 @Service
 public class ProductService {
 
+    @Autowired
     private ProductRepository productRepository;
 
     public List<Product> getAllProducts() {
