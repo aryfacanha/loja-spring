@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class CategoryController {
 
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
     
     @GetMapping
     public List<Category> getCategories() {

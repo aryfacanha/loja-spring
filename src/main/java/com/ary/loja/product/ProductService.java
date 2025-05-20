@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class ProductService {
 
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     public List<Product> getAllProducts() {
         return (List<Product>) productRepository.findAll();

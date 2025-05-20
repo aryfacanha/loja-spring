@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CustomerController {
 
     @Autowired
-    CustomerService customerService;
+    private CustomerService customerService;
 
     @GetMapping
     public List<Customer> getCustomers() {

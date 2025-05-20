@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class CustomerService {
 
     @Autowired
-    public CustomerRepository customerRepository;
+    private CustomerRepository customerRepository;
 
 
     public List<Customer> getAllCustomers(){

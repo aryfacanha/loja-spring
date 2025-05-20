@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class CategoryService {
 
     @Autowired
-    CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
 
     private boolean isNameAvailable(String name) {
 
