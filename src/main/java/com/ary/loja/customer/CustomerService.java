@@ -4,13 +4,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 @Service
 public class CustomerService {
 
-    @Autowired
     private CustomerRepository customerRepository;
 
 
