@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <form id="form">
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name"> <br>
+        <label for="price">Price:</label>
+        <input type="number" name="price" id="price">
+        <label for="description">Description:</label>
+        <textarea name="description" id="description"></textarea>
+        Refundable:
+        <label for="ref1">Yes</label>
+        <input type="radio" name="refundable" id="ref1" checked value="true">
+        <label for="ref1">No</label>
+        <input type="radio" name="refundable" id="ref2" value="false">
+        <label for="categories">Categories:</label>
+        <select name="categories" id="categories">
+        </select>
+        <button type="submit" onclick="create()">Send</button>
+
+    </form>
+
+    <table id="data">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Refundable</th>
+                <th>Categories</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </thead>
+    </table>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+        function create(){
+            $.ajax({
+                url: 'http://localhost:8080/api/product',
+                method: 'POST',
+                data: $("#form").serialize()
+            }).done(
+                function(){
+                    alert("Product saved")
+                    getAll();
+                }
+            )
+        }
+
+        function getAll(){
+            $.ajax({
+                url: 'http://localhost:8080/api/product',
+                method: 'GET',
+            }).done(
+                function(data){
+                    for(i=0; i < data.lenght; i++){
+                        let product = data[i];
+                        $("#data").append(` <tr>
+                <td>${product.id}</td>
+                <td>${product.name}</td>
+                <td>${product.price}</td>
+                <td>${product.description}</td>
+                <td>${product.refundable}</td>
+                <td>${product.categories}</td>
+            </tr>`)
+                    }
+                }
+            )
+        }
+       
+    </script>
+    
+</body>
+</html>
