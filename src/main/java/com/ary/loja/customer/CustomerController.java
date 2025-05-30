@@ -21,7 +21,7 @@ import lombok.AllArgsConstructor;
 @RequestMapping(path = "/api/customer")
 public class CustomerController {
 
-    private CustomerService customerService;
+    private final CustomerService customerService;
 
     @GetMapping
     public List<Customer> getCustomers() {

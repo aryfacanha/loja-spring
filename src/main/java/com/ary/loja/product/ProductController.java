@@ -23,7 +23,7 @@ import lombok.AllArgsConstructor;
 @RequestMapping(path = "/api/product")
 public class ProductController {
 
-    private ProductService productService;
+    private final ProductService productService;
     
     @GetMapping
     public List<Product> getProducts() {
