@@ -35,7 +35,7 @@ public class ProductService {
             product.setName(name);
         }
 
-        if (price != null && Double.compare(product.getPrice(), price) == 0) {
+        if (price != null && Double.compare(product.getPrice(), price) != 0) {
             product.setPrice(price);
         }
 
