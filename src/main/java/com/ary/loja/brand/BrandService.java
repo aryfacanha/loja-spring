@@ -39,7 +39,14 @@ public class BrandService {
     }
 
     public void addBrand(Brand brand) {
-        
+
+        String name = brand.getName();
+
+        if(name == null || name.trim().isEmpty()) {
+            throw new IllegalStateException("Name not present");
+        }
+        checkName(name);
+
         brandRepository.save(brand);
     }
 
