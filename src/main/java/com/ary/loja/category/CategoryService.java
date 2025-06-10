@@ -15,11 +15,11 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    private boolean isNameAvailable(String name) {
+    private boolean isNameAvailable(String name, Integer id) {
 
         Optional<Category> nameExists = categoryRepository.findByName(name);
 
-        if (nameExists.isPresent()) {
+        if (nameExists.isPresent() && nameExists.get().getId() != id) {
             throw new IllegalStateException("Category with the name " + name + " already exists");
         }
 
@@ -39,7 +39,7 @@ public class CategoryService {
 
         Category category = categoryRepository.findById(id).get();
 
-        if (name != null && name.length() > 0 && !Objects.equals(name, category.getName()) && isNameAvailable(name)) {
+        if (name != null && name.length() > 0 && !Objects.equals(name, category.getName()) && isNameAvailable(name, id)) {
 
             category.setName(name);
 
@@ -58,9 +58,9 @@ public class CategoryService {
         categoryRepository.delete(category);
     }
 
-    public void addCategory(Category category) {
+    public void saveCategory(Category category) {
 
-        if(isNameAvailable(category.getName())){
+        if(isNameAvailable(category.getName(), category.getId())){
             categoryRepository.save(category);
         }
 
