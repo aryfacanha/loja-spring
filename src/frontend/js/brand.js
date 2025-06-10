@@ -59,6 +59,7 @@ function updateForm(data) {
         if ($('#id').val() == '' || $('#id').val() == null) {
             $('#btn-cancel').toggleClass('d-none')
             $('#btn-save').val('update')
+            
         }
 
         $('#id').val(data.id)
@@ -113,7 +114,7 @@ $(function () {
         $('#form input').val('')
         $(this).toggleClass('d-none')
         $('#btn-save').val('update')
-        $('btn-save').html('Cadastrar')
+        $('#btn-save').html('Cadastrar')
     })
 
     updateTable();
