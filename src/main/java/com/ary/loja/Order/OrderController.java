@@ -1,4 +1,4 @@
-package com.ary.loja.Order;
+package com.ary.loja.order;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

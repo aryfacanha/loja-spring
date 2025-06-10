@@ -1,4 +1,4 @@
-package com.ary.loja.OrderProduct;
+package com.ary.loja.orderproduct;
 
 import java.util.List;
 

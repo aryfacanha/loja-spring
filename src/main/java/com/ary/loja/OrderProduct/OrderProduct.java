@@ -1,8 +1,8 @@
-package com.ary.loja.OrderProduct;
+package com.ary.loja.orderproduct;
 
 import java.time.LocalDate;
 
-import com.ary.loja.Order.Order;
+import com.ary.loja.order.Order;
 import com.ary.loja.product.Product;
 
 import jakarta.persistence.Column;

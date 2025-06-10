@@ -1,4 +1,4 @@
-package com.ary.loja.Order;
+package com.ary.loja.order;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.ary.loja.OrderProduct.OrderProduct;
 import com.ary.loja.customer.Customer;
+import com.ary.loja.orderproduct.OrderProduct;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
