@@ -77,3 +77,44 @@ function getCategories(callback) {
         }
     )
 }
+
+// Customers
+
+function getCustomer(customerId, callback) {
+
+    $.ajax({
+        url: `http://localhost:8080/api/customer/${customerId}`,
+        method: 'GET',
+    }).done(
+        function (data) {
+            if (typeof callback === 'function') {
+                callback(data)
+            }
+        }
+    ).fail(function (xhr, status, error) {
+        let message = "Erro desconhecido";
+        if (xhr.responseJSON && xhr.responseJSON.message) {
+            message = xhr.responseJSON.message;
+        } else if (xhr.responseText) {
+            message = xhr.responseText;
+        }
+        alert("Erro ao buscar cliente: " + message);
+    })
+
+}
+
+function getCustomers(callback) {
+    $.ajax({
+        url: 'http://localhost:8080/api/customer/all',
+        method: "GET",
+    }
+    ).done(
+        function (data) {
+
+            if (typeof callback === 'function') {
+                callback(data)
+            }
+
+        }
+    )
+}

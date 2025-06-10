@@ -30,7 +30,7 @@ public class CustomerService {
         
         Optional<Customer> newCustomer = customerRepository.findCustomerByEmail(customer.getEmail());
 
-        if (newCustomer.isPresent()){
+        if (newCustomer.isPresent() && customer.getId() != newCustomer.get().getId()){
             throw new IllegalStateException("User with the email " + customer.getEmail() + " already exists");
         }
 
