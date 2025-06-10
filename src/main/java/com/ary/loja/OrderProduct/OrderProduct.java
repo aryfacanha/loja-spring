@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import com.ary.loja.order.Order;
 import com.ary.loja.product.Product;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,6 +37,7 @@ public class OrderProduct {
   @JoinColumn(name = "product_id")
   private Product product;
   @ManyToOne
+  @JsonIgnore
   @JoinColumn(name = "order_id")
   private Order order;
 

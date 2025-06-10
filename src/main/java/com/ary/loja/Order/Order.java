@@ -1,6 +1,7 @@
 package com.ary.loja.order;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,25 +35,25 @@ public class Order {
     private Integer id;
     @Column(nullable = false)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private LocalDate orderDateTime;
+    private LocalDateTime orderDateTime;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private LocalDate paymentDateTime;
+    private LocalDateTime paymentDateTime;
     private Double totalPrice;
     private Boolean cancelled;
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
     @OneToMany(mappedBy = "order")
-    private List<OrderProduct> orderProductList = new ArrayList<>();
+    private List<OrderProduct> orderProducts = new ArrayList<>();
 
-    public Order(LocalDate orderDateTime, LocalDate paymentDateTime, Double totalPrice, Boolean cancelled,
+    public Order(LocalDateTime orderDateTime, LocalDateTime paymentDateTime, Double totalPrice, Boolean cancelled,
             Customer customer, List<OrderProduct> orderProductList) {
         this.orderDateTime = orderDateTime;
         this.paymentDateTime = paymentDateTime;
         this.totalPrice = totalPrice;
         this.cancelled = cancelled;
         this.customer = customer;
-        this.orderProductList = orderProductList;
+        this.orderProducts = orderProductList;
     }
 
 }
