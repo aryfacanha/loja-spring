@@ -5,6 +5,8 @@ import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
+import com.ary.loja.brand.Brand;
+
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
@@ -23,11 +25,20 @@ public class ProductService {
     }
 
     public void addNewProduct(Product product) {
+
+        if (product.getBrand() == null) {
+            throw new IllegalStateException("Brand not selected");
+        }
+
+        if (product.getCategories() == null || product.getCategories().isEmpty()) {
+            throw new IllegalStateException("Categories not selected");
+        }
+
         productRepository.save(product);
     }
 
     @Transactional
-    public void updateProductById(Integer id, String name, Double price, String description, Boolean refundable) {
+    public void updateProductById(Integer id, String name, Double price, String description, Boolean refundable, Brand brand) {
 
         Product product = productRepository.findById(id).get();
 
@@ -45,6 +56,10 @@ public class ProductService {
 
         if (refundable != null && !Objects.equals(product.getRefundable(), refundable)) {
             product.setRefundable(refundable);
+        }
+
+        if (brand != null && !Objects.equals(product.getBrand(), brand)) {
+            product.setBrand(brand);
         }
 
     }

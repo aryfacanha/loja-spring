@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ary.loja.brand.Brand;
+
 import lombok.AllArgsConstructor;
 
 
@@ -25,7 +27,7 @@ public class ProductController {
 
     private final ProductService productService;
     
-    @GetMapping
+    @GetMapping("/all")
     public List<Product> getProducts() {
         return productService.getAllProducts();
     }
@@ -36,13 +38,13 @@ public class ProductController {
     }
 
     @PostMapping
-    public void addProduct(@RequestBody Product product) {
+    public void addProduct(Product product) {
         productService.addNewProduct(product);
     }
 
     @PutMapping("/{id}")
-    public void updateProduct(@PathVariable Integer id, @RequestParam(required=false) String name, @RequestParam(required=false) Double price, @RequestParam(required=false) String description, @RequestParam(required=false) Boolean refundable) {
-        productService.updateProductById(id, name, price, description, refundable);
+    public void updateProduct(@PathVariable Integer id, @RequestParam(required=false) String name, @RequestParam(required=false) Double price, @RequestParam(required=false) String description, @RequestParam(required=false) Boolean refundable, @RequestParam(required = false) Brand brand) {
+        productService.updateProductById(id, name, price, description, refundable, brand);
     }
 
     @DeleteMapping("/{id}")
