@@ -37,7 +37,6 @@ public class Order {
     private LocalDateTime orderDateTime;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime paymentDateTime;
-    private Double totalPrice;
     private Boolean cancelled;
     @ManyToOne
     @JoinColumn(name = "customer_id")
@@ -45,11 +44,10 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
-    public Order(LocalDateTime orderDateTime, LocalDateTime paymentDateTime, Double totalPrice, Boolean cancelled,
+    public Order(LocalDateTime orderDateTime, LocalDateTime paymentDateTime, Boolean cancelled,
             Customer customer, List<OrderProduct> orderProductList) {
         this.orderDateTime = orderDateTime;
         this.paymentDateTime = paymentDateTime;
-        this.totalPrice = totalPrice;
         this.cancelled = cancelled;
         this.customer = customer;
         this.orderProducts = orderProductList;
