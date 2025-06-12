@@ -50,6 +50,11 @@ public class ProductController {
     public void deleteProductById(@PathVariable Integer id) {
         productService.deleteProductById(id);
     }
+
+    @GetMapping("/search")
+    public List<Product> getProductsByName(@RequestParam String str) {
+        return productService.getProductsByName(str);
+    }
     
 
 }

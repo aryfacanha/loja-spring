@@ -118,3 +118,67 @@ function getCustomers(callback) {
         }
     )
 }
+
+// Products
+
+function getProducts(callback) {
+    $.ajax({
+        url: 'http://localhost:8080/api/product/all',
+        method: "GET",
+    }
+    ).done(
+        function (data) {
+            if (typeof callback === 'function') {
+                return callback(data)
+            }
+        }
+    )
+}
+
+function getProduct(productId, callback) {
+
+    $.ajax({
+        url: `http://localhost:8080/api/product/${productId}`,
+        method: 'GET',
+    }).done(
+        function (data) {
+            if (typeof callback === 'function') {
+                return callback(data)
+            }
+        }
+    ).fail(function (xhr, status, error) {
+        let message = "Erro desconhecido";
+        if (xhr.responseJSON && xhr.responseJSON.message) {
+            message = xhr.responseJSON.message;
+        } else if (xhr.responseText) {
+            message = xhr.responseText;
+        }
+        alert("Erro ao buscar produto: " + message);
+    })
+
+}
+
+function getProductsByName(str, callback) {
+    $.ajax({
+        url: `http://localhost:8080/api/product/search?str=${str}`,
+        method: "GET",
+    }
+    ).done(
+        function (data) {
+            if (typeof callback === 'function') {
+                return callback(data)
+            }
+        }
+    )
+}
+
+// Orders
+
+function debounceInput(selector, delay, callback) {
+    let timer;
+    $(selector).on('input', function () {
+        clearTimeout(timer);
+        const value = $(this).val();
+        timer = setTimeout(() => callback(value), delay);
+    });
+}

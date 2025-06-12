@@ -70,4 +70,8 @@ public class ProductService {
         productRepository.delete(product);
     }
 
+    public List<Product> getProductsByName(String str) {
+        return productRepository.findByNameContaining(str);
+    }
+
 }

@@ -32,22 +32,23 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column(nullable = false)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime orderDateTime;
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private LocalDateTime paymentDateTime;
+
     private Boolean cancelled;
+
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
+    
     @OneToMany(mappedBy = "order")
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
-    public Order(LocalDateTime orderDateTime, LocalDateTime paymentDateTime, Boolean cancelled,
+    public Order(LocalDateTime orderDateTime, Boolean cancelled,
             Customer customer, List<OrderProduct> orderProductList) {
         this.orderDateTime = orderDateTime;
-        this.paymentDateTime = paymentDateTime;
         this.cancelled = cancelled;
         this.customer = customer;
         this.orderProducts = orderProductList;

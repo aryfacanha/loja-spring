@@ -6,7 +6,7 @@ function createProduct() {
     }).done(
         function () {
             alert("Produto cadastrado")
-            getProducts();
+            updateTable();
         }
     ).fail(function (xhr, status, error) {
         let message = "Erro desconhecido";
@@ -20,27 +20,24 @@ function createProduct() {
 }
 
 
-function getProducts() {
-    $.ajax({
-        url: 'http://localhost:8080/api/product/all',
-        method: "GET",
-    }
-    ).done(
-        function (data) {
+function updateTable() {
 
-            $('#products').empty()
+    getProducts(function (data) {
 
-            if (data.length > 0) {
+        $('#products').empty()
 
-                for (i = 0; i < data.length; i++) {
-                    let product = data[i]
-                    let categories = '';
-                    for(i=0; i < product.categories.length; i++){
-                        categories += `${product.categories[i].name}, `
-                    }
-                        categories = categories.trim().slice(0, -1)
+        if (data.length > 0) {
 
-                    $('#products').append(`<tr>
+                
+            for (i = 0; i < data.length; i++) {
+                let product = data[i]
+                let categories = '';
+                for (j = 0; j < product.categories.length; j++) {
+                    categories += `${product.categories[j].name}, `
+                }
+                categories = categories.trim().slice(0, -1)
+
+                $('#products').append(`<tr>
                     <th scope="col">
                         <div>${product.id}</div>
                     </th>
@@ -73,51 +70,39 @@ function getProducts() {
                         </button>
                     </th>
                 </tr>`)
-                }
             }
         }
-    )
+
+    })
 }
 
 function updateForm(productId) {
 
-    $.ajax({
-        url: `http://localhost:8080/api/product/${productId}`,
-        method: 'GET',
-    }).done(
-        function (data) {
-            if (data != null) {
+    getProduct(productId, function (data) {
 
-                if ($('#id').val() == '' || $('#id').val() == null) {
-                    $('#btn-cancel').toggleClass('d-none')
-                    $('#btn-save').val('update')
-                }
 
-                $('#id').val(data.id)
-                $('#name').val(data.name)
-                $('#price').val(data.price)
-                $('#description').val(data.description)
-                $('#refundable').val(`${data.refundable}`).change()
-                
-                $('#brands').val(`${data.brand.id}`).change()
+        if (data != null) {
 
-                for(i=0; i < data.categories.length; i++) {
-                    $(`#cat${data.categories[i].id}`).prop('checked', true)
-                }
-                $('#btn-save').html('Atualizar')
-
+            if ($('#id').val() == '' || $('#id').val() == null) {
+                $('#btn-cancel').toggleClass('d-none')
+                $('#btn-save').val('update')
             }
-        }
-    ).fail(function (xhr, status, error) {
-        let message = "Erro desconhecido";
-        if (xhr.responseJSON && xhr.responseJSON.message) {
-            message = xhr.responseJSON.message;
-        } else if (xhr.responseText) {
-            message = xhr.responseText;
-        }
-        alert("Erro ao buscar produto: " + message);
-    })
 
+            $('#id').val(data.id)
+            $('#name').val(data.name)
+            $('#price').val(data.price)
+            $('#description').val(data.description)
+            $('#refundable').val(`${data.refundable}`).change()
+
+            $('#brands').val(`${data.brand.id}`).change()
+
+            for (i = 0; i < data.categories.length; i++) {
+                $(`#cat${data.categories[i].id}`).prop('checked', true)
+            }
+            $('#btn-save').html('Atualizar')
+
+        }
+    })
 }
 
 function fillBrands(select) {
@@ -164,7 +149,7 @@ function updateProduct(productId) {
     }).done(
         function () {
             alert("Produto atualizada")
-            getProducts();
+            updateTable();
         }
     ).fail(function (xhr, status, error) {
         let message = "Erro desconhecido";
@@ -230,7 +215,7 @@ $(function () {
         $('#brands').val('')
     })
 
-    getProducts();
+    updateTable();
     fillBrands('#brands');
     fillCategories('#categories-div')
 

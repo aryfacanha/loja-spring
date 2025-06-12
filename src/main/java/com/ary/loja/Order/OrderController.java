@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -19,5 +21,10 @@ public class OrderController {
     @GetMapping("/{id}")
     public Order getOrderById(@PathVariable Integer id) {
         return orderService.getOrderById(id);
+    }
+
+    @PostMapping 
+    public void addNewOrder(Order order) {
+        orderService.addOrder(order);
     }
 }
