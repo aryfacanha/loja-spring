@@ -1,8 +1,13 @@
+
+// Order Object
+
+let orderProducts = []
+
 function createOrder() {
     $.ajax({
         url: 'http://localhost:8080/api/order',
         method: 'POST',
-        data: $("#form").serialize()
+        data: JSON.stringify(order),
     }).done(
         function () {
             alert("Pedido cadastrado")
@@ -53,6 +58,22 @@ function updateTable() {
             }
         }
     })
+
+}
+
+function fillCustomers(select) {
+
+    getCustomers(function (data) {
+
+        for (let i = 0; i < data.length; i++) {
+
+            let customer = data[i]
+
+            $(`#${select}`).append(`<option value="${customer.id}">${customer.name}</option>`);
+        }
+
+    })
+
 
 }
 
@@ -158,9 +179,9 @@ $(document).on("click", ".btn-delete", function (event) {
 
 })
 
-$(document).on("change", "#product-select", function (opt) {
+$(document).on("click", "#btn-add", function (opt) {
 
-    const selectedOption = $(this).find('option:selected');
+    const selectedOption = $('#product-select').find('option:selected');
     const value = selectedOption.val();
 
 
@@ -178,14 +199,36 @@ $(document).on("change", "#product-select", function (opt) {
             }
             categories = categories.trim().slice(0, -1)
 
+            let found = orderProducts.find(e => e.product.id === data.id);
+
+            if (found) {
+
+                console.log(found)
+
+                const prodRow = $(`#prodRow${data.id} .prodCount`)
+
+                console.log(prodRow)
+
+                found.quantity += 1
+
+                console.log(found.quantity)
+
+                prodRow.html(found.quantity)
+
+                return
+            }
+
+            let orderProduct = {
+                price: data.price,
+                quantity: 1,
+                product: data
+            }
+
             prodCount++
 
-            let randomId = Math.floor(Math.random() * 100000) + prodCount;
+            orderProducts.push(orderProduct)
 
-            $('#product-list').append(`<tr id="${randomId}" productId="${data.id}">
-                    <th scope="col">
-                        <div>${prodCount}</div>
-                    </th>
+            $('#product-list').append(`<tr id="prodRow${data.id}">
                     <th scope="col">
                         ${data.name}
                     </th>
@@ -204,57 +247,83 @@ $(document).on("change", "#product-select", function (opt) {
                     <th scope="col">
                         ${data.refundable == true ? 'Sim' : 'Não'}
                     </th>
+                    <th scope="col" class="prodCount">
+                        1
+                    </th>
                     <th scope="col" class="text-center">
-                        <button class="btn border btn-remove" type="button" productId="${data.id}" trId="${randomId}">
+                        <button class="btn border btn-remove" type="button" productId="${data.id}">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </th>
                 </tr>`)
 
         }
-
-        $("#product-select").val('')
-
     })
 
 })
 
 $(document).on("click", ".btn-remove", function (event) {
 
-    const trId = $(this).attr('trId')
+    const productId = Number($(this).attr('productId'));
 
-    $(`#${trId}`).remove()
+    let foundIndex = orderProducts.findIndex(e => e.product.id === productId);
 
-    prodCount--
+    if (foundIndex === -1) {
+        return
+    }
 
-}) 
+    
+    const found = orderProducts[foundIndex]
+
+    if (found.quantity == 1) {
+        orderProducts.splice(foundIndex, 1)
+        $(`#prodRow${productId}`).remove()
+        prodCount--
+        return
+    }
+
+    found.quantity -= 1
+
+    $(`#prodRow${productId} .prodCount`).html(found.quantity)
+
+
+})
 
 $(function () {
 
-    $('#btn-save').on("click", function (event) {
+    $('#form').on("submit", function (event) {
         event.preventDefault()
-        createOrder()
+        let orderDate = $('#orderDate').val()
+        let customer = $('#customer').val()
+        let cancelled = $('#cancelled').val()
+
+        let order = {
+            orderProducts: orderProducts,
+            customer: { id: customer },
+            cancelled: cancelled,
+            orderDateTime: orderDate
+        }
+        console.log(orderProducts)
+        //createOrder()
     })
 
     debounceInput('#product-search', 500, function (str) {
 
         getProductsByName(str, function (data) {
 
-            let select = $('#product-select')
-
             let nullOption = `<option value="">--</option>`
+
+            let select = $('#product-select')
 
             select.empty()
 
+
+
             if (data == null || data.length == 0) {
-
                 select.append(nullOption)
-
                 return
-
             }
 
-            select.append(nullOption)
 
             for (i = 0; i < data.length; i++) {
 
@@ -275,5 +344,8 @@ $(function () {
         $('#btn-save').html('Cadastrar')
     })
 
+    fillCustomers('customer');
+
     updateTable();
+
 })

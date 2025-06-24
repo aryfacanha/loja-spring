@@ -29,7 +29,7 @@
                 <input type="hidden" name="id" id="id">
                 <div class="col-auto">
                     <div class="form-floating col-auto">
-                        <input type="datetime" class="form-control" name="orderDate" id="orderDate" placeholder=""
+                        <input type="date" class="form-control" name="orderDate" id="orderDate" placeholder=""
                             required>
                         <label for="name">Data: </label>
                     </div>
@@ -45,7 +45,7 @@
                     <label for="name">Cancelado </label>
                     <select class="form-control" name="cancelled" id="cancelled">
                         <option value="true">Sim</option>
-                        <option value="false">Não</option>
+                        <option value="false" checked>Não</option>
                     </select>
 
                 </div>
@@ -69,6 +69,9 @@
                         <option value="0">--</option>
                     </select>
                 </div>
+                  <div class="col-auto">
+                    <button class="btn btn-secondary" type="button" id="btn-add">Adicionar</button>
+                </div>
             </div>
 
             <div class="row align-items-center mt-2">
@@ -81,9 +84,7 @@
                     <table class="table table-striped table-bordered">
                         <thead class="border">
                             <tr>
-                                <th scope="col">
-                                    ID
-                                </th>
+
                                 <th scope="col">
                                     Nome
                                 </th>
@@ -101,6 +102,9 @@
                                 </th>
                                 <th scope="col">
                                     Reembolsável
+                                </th>
+                                <th>
+                                    Quantidade
                                 </th>
                                 <th scope="col">
                                 </th>
