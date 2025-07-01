@@ -1,5 +1,10 @@
 package com.ary.loja.brand;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,8 +26,17 @@ public class Brand {
     private Integer id;
     private String name;
 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime creationDateTime;
+
     public Brand(String name) {
         this.name = name;
+        this.creationDateTime = LocalDateTime.now();
+    }
+
+    public String getFormattedCreationDateTime() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        return creationDateTime.format(formatter);
     }
     
 }

@@ -1,5 +1,6 @@
 package com.ary.loja.product;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,11 +35,20 @@ public class ProductService {
             throw new IllegalStateException("Categories not selected");
         }
 
+        if (product.getId() == null) {
+            product.setCreationDateTime(LocalDateTime.now());
+        } else {
+            Product existing = productRepository.findById(product.getId())
+                    .orElseThrow(() -> new IllegalStateException("Product not found"));
+            product.setCreationDateTime(existing.getCreationDateTime());
+        }
+
         productRepository.save(product);
     }
 
     @Transactional
-    public void updateProductById(Integer id, String name, Double price, String description, Boolean refundable, Brand brand) {
+    public void updateProductById(Integer id, String name, Double price, String description, Boolean refundable,
+            Brand brand) {
 
         Product product = productRepository.findById(id).get();
 

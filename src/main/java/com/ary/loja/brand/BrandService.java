@@ -1,5 +1,6 @@
 package com.ary.loja.brand;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,7 +11,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @Service
 public class BrandService {
- 
+
     private final BrandRepository brandRepository;
 
     private boolean isNamePresent(String name) {
@@ -23,10 +24,9 @@ public class BrandService {
 
     private void checkName(String name) {
 
-          if(isNamePresent(name)) {
+        if (isNamePresent(name)) {
             throw new IllegalStateException("Brand with the name " + name + " already exists");
         }
-     
 
     }
 
@@ -42,34 +42,43 @@ public class BrandService {
 
         String name = brand.getName();
 
-        if(name == null || name.trim().isEmpty()) {
+        if (name == null || name.trim().isEmpty()) {
             throw new IllegalStateException("Name not present");
         }
+
         checkName(name);
+
+        if (brand.getId() == null) {
+            brand.setCreationDateTime(LocalDateTime.now());
+        } else {
+            Brand existing = brandRepository.findById(brand.getId())
+                    .orElseThrow(() -> new IllegalStateException("Brand not found"));
+            brand.setCreationDateTime(existing.getCreationDateTime());
+        }
 
         brandRepository.save(brand);
     }
 
     public void updateBrand(Brand brand) {
 
-        if(brand.getId() == null) {
+        if (brand.getId() == null) {
             throw new IllegalStateException("ID not present");
         }
 
         checkName(brand.getName());
-     
+
         brandRepository.save(brand);
     }
 
     public void deleteBrandById(Integer id) {
-        
+
         Optional<Brand> brandExists = brandRepository.findById(id);
 
-        if(!brandExists.isPresent()) {
-            throw new IllegalStateException("Brand with ID "+ id +" not found");
+        if (!brandExists.isPresent()) {
+            throw new IllegalStateException("Brand with ID " + id + " not found");
         }
 
         brandRepository.deleteById(id);
     }
-    
+
 }

@@ -42,6 +42,9 @@ function updateTable() {
                         <div>${product.id}</div>
                     </th>
                     <th scope="col">
+                        <div>${product.formattedCreationDateTime}</div>
+                    </th>
+                    <th scope="col">
                         ${product.name}
                     </th>
                     <th scope="col">

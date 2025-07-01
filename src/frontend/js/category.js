@@ -33,6 +33,9 @@ function updateTable(data) {
                     <th scope="col">
                         <div>${category.id}</div>
                     </th>
+                     <th scope="col">
+                        <div>${category.formattedCreationDateTime}</div>
+                    </th>
                     <th scope="col">
                         ${category.name}
                     </th>

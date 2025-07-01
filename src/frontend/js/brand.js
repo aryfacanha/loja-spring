@@ -34,6 +34,9 @@ function updateTable() {
                         <div>${brand.id}</div>
                     </th>
                     <th scope="col">
+                        <div>${brand.formattedCreationDateTime}</div>
+                    </th>
+                    <th scope="col">
                         ${brand.name}
                     </th>
                     <th scope="col" class="text-center">

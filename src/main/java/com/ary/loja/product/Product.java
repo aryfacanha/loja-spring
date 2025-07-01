@@ -1,9 +1,12 @@
 package com.ary.loja.product;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.ary.loja.brand.Brand;
 import com.ary.loja.category.Category;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,6 +37,10 @@ public class Product {
     private String description;
     private Boolean refundable;
 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime creationDateTime;
+
+
     @ManyToOne
     @JoinColumn(name = "brand_id")
     private Brand brand;
@@ -50,6 +57,12 @@ public class Product {
         this.description = description;
         this.categories = categories;
         this.brand = brand;
+        this.creationDateTime = LocalDateTime.now();
+    }
+
+    public String getFormattedCreationDateTime() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        return creationDateTime.format(formatter);
     }
 
 }

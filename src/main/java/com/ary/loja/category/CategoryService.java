@@ -1,5 +1,6 @@
 package com.ary.loja.category;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -39,7 +40,8 @@ public class CategoryService {
 
         Category category = categoryRepository.findById(id).get();
 
-        if (name != null && name.length() > 0 && !Objects.equals(name, category.getName()) && isNameAvailable(name, id)) {
+        if (name != null && name.length() > 0 && !Objects.equals(name, category.getName())
+                && isNameAvailable(name, id)) {
 
             category.setName(name);
 
@@ -60,10 +62,17 @@ public class CategoryService {
 
     public void saveCategory(Category category) {
 
-        if(isNameAvailable(category.getName(), category.getId())){
+        if (isNameAvailable(category.getName(), category.getId())) {
+            if (category.getId() == null) {
+                category.setCreationDateTime(LocalDateTime.now());
+            } else {
+                Category original = categoryRepository.findById(category.getId())
+                        .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+                category.setCreationDateTime(original.getCreationDateTime());
+            }
+
             categoryRepository.save(category);
         }
-
     }
 
 }
