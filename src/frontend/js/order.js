@@ -17,9 +17,7 @@ function createOrder() {
     }).done(
         function () {
             alert("Pedido cadastrado")
-            console.log(order)
-            updateTable();
-            resetAllFields()
+            location.reload()
         }
     ).fail(function (xhr, status, error) {
         let message = "Erro desconhecido";

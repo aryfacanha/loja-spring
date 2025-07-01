@@ -6,7 +6,7 @@ function createProduct() {
     }).done(
         function () {
             alert("Produto cadastrado")
-            updateTable();
+            location.reload();
         }
     ).fail(function (xhr, status, error) {
         let message = "Erro desconhecido";
