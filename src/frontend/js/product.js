@@ -173,8 +173,8 @@ function deleteProduct(productId) {
         method: "DELETE",
     }).done(
         function () {
-            alert("Produto Deletada")
-            getProducts();
+            alert("Produto Deletado")
+            updateTable()
         }
     ).fail(function (xhr, status, error) {
         let message = "Erro desconhecido";

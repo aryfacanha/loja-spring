@@ -112,8 +112,8 @@ function deleteCustomer(customerId) {
         method: "DELETE",
     }).done(
         function () {
-            alert("Cliente Deletada")
-            getCustomers();
+            alert("Cliente Deletado")
+            updateTable()
         }
     ).fail(function (xhr, status, error) {
         let message = "Erro desconhecido";

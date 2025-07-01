@@ -46,7 +46,7 @@ public class ProductController {
         productService.updateProductById(id, name, price, description, refundable, brand);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteProductById(@PathVariable Integer id) {
         productService.deleteProductById(id);
     }

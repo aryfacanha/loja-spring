@@ -191,3 +191,42 @@ function debounceInput(selector, delay, callback) {
         timer = setTimeout(() => callback(value), delay);
     });
 }
+
+function getOrders(callback) {
+    $.ajax({
+        url: 'http://localhost:8080/api/order/all',
+        method: "GET",
+    }
+    ).done(
+        function (data) {
+
+            if (typeof callback === 'function') {
+                callback(data)
+            }
+
+        }
+    )
+}
+
+function getOrder(orderId, callback) {
+
+    $.ajax({
+        url: `http://localhost:8080/api/order/${orderId}`,
+        method: 'GET',
+    }).done(
+        function (data) {
+            if (typeof callback === 'function') {
+                return callback(data)
+            }
+        }
+    ).fail(function (xhr, status, error) {
+        let message = "Erro desconhecido";
+        if (xhr.responseJSON && xhr.responseJSON.message) {
+            message = xhr.responseJSON.message;
+        } else if (xhr.responseText) {
+            message = xhr.responseText;
+        }
+        alert("Erro ao buscar pedido: " + message);
+    })
+
+}

@@ -2,16 +2,24 @@
 // Order Object
 
 let orderProducts = []
+let order
+
+const now = new Date();
+
+const localDateTime = now.toISOString().slice(0, 16);
 
 function createOrder() {
     $.ajax({
         url: 'http://localhost:8080/api/order',
         method: 'POST',
         data: JSON.stringify(order),
+        contentType: 'application/json'
     }).done(
         function () {
             alert("Pedido cadastrado")
+            console.log(order)
             updateTable();
+            resetAllFields()
         }
     ).fail(function (xhr, status, error) {
         let message = "Erro desconhecido";
@@ -34,15 +42,29 @@ function updateTable() {
 
             for (i = 0; i < data.length; i++) {
                 let order = data[i]
+                let orderProducts = ""
+
+                for (j = 0; j < order.orderProducts.length; j++) {
+                    let op = order.orderProducts[j]
+                    orderProducts += `(${op.quantity}) ${op.product.name}, `
+                }
+
+                orderProducts = orderProducts.trim().slice(0, -1)
                 $('#orders').append(`<tr>
                     <th scope="col">
                         <div>${order.id}</div>
                     </th>
                     <th scope="col">
-                        ${order.name}
+                        ${order.customer.name}
                     </th>
                     <th scope="col">
-                        ${order.email}
+                        ${order.formattedOrderDateTime}
+                    </th>
+                    <th scope="col">
+                        ${orderProducts}
+                    </th>
+                     <th scope="col">
+                        ${order.cancelled == "1" ? "Sim" : "Não"}
                     </th>
                     <th scope="col" class="text-center">
                         <button class="btn border btn-update" order="${order.id}">
@@ -77,9 +99,80 @@ function fillCustomers(select) {
 
 }
 
+function fillProduct(product) {
+
+    let data = product;
+
+    let categories = '';
+    for (i = 0; i < data.categories.length; i++) {
+        categories += `${data.categories[i].name}, `
+    }
+    categories = categories.trim().slice(0, -1)
+
+    let found = orderProducts.find(e => e.product.id === data.id);
+
+    if (found) {
+
+        console.log(found)
+
+        const prodRow = $(`#prodRow${data.id} .prodCount`)
+
+        console.log(prodRow)
+
+        found.quantity += 1
+
+        console.log(found.quantity)
+
+        prodRow.html(found.quantity)
+
+        return
+    }
+
+    let orderProduct = {
+        price: data.price,
+        quantity: 1,
+        product: data
+    }
+
+    prodCount++
+
+    orderProducts.push(orderProduct)
+
+    $('#product-list').append(`<tr id="prodRow${data.id}">
+                    <th scope="col">
+                        ${data.name}
+                    </th>
+                    <th scope="col">
+                        R$ ${data.price}
+                    </th>
+                    <th scope="col">
+                        ${data.description == null ? '' : data.description}
+                    </th>
+                    <th scope="col">
+                        ${data.brand.name}
+                    </th>
+                    <th scope="col">
+                        ${categories}
+                    </th>
+                    <th scope="col">
+                        ${data.refundable == true ? 'Sim' : 'Não'}
+                    </th>
+                    <th scope="col" class="prodCount">
+                        1
+                    </th>
+                    <th scope="col" class="text-center">
+                        <button class="btn border btn-remove" type="button" productId="${data.id}">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </th>
+                </tr>`)
+}
+
 
 
 function updateForm(order) {
+
+    resetAllFields()
 
     getOrder(order, function (data) {
         if (data != null) {
@@ -89,10 +182,59 @@ function updateForm(order) {
                 $('#btn-save').val('update')
             }
 
+            console.log(data)
             $('#id').val(data.id)
-            $('#name').val(data.name)
-            $('#email').val(data.email)
-            $('#btn-save').html('Atualizar')
+            $('#customer').val(data.customer.id)
+            $('#cancelled').val(`${data.cancelled}`).change()
+            $('#orderDate').val(data.orderDateTime)
+
+            console.log(data)
+
+            let categories = '';
+            for (let i = 0; i < data.orderProducts.length; i++) {
+
+
+                let op = data.orderProducts[i];
+                categories = '';
+                for (let j = 0; j < op.product.categories.length; j++) {
+                    categories += `${op.product.categories[j].name}, `
+                }
+                categories = categories.trim().slice(0, -1)
+
+                prodCount++
+
+                orderProducts.push(op)
+
+                $('#product-list').append(`<tr id="prodRow${op.product.id}">
+                    <th scope="col">
+                        ${op.product.name}
+                    </th>
+                    <th scope="col">
+                        R$ ${op.product.price}
+                    </th>
+                    <th scope="col">
+                        ${op.product.description == null ? '' : op.product.description}
+                    </th>
+                    <th scope="col">
+                        ${op.product.brand.name}
+                    </th>
+                    <th scope="col">
+                        ${categories}
+                    </th>
+                    <th scope="col">
+                        ${op.product.refundable == true ? 'Sim' : 'Não'}
+                    </th>
+                    <th scope="col" class="prodCount">
+                        ${op.quantity}
+                    </th>
+                    <th scope="col" class="text-center">
+                        <button class="btn border btn-remove" type="button" productId="${op.product.id}">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </th>
+                </tr>`)
+
+            }
 
 
         }
@@ -133,8 +275,8 @@ function deleteOrder(orderId) {
         method: "DELETE",
     }).done(
         function () {
-            alert("Pedido Deletada")
-            getOrders();
+            alert("Pedido Deletado")
+            updateTable()
         }
     ).fail(function (xhr, status, error) {
         let message = "Erro desconhecido";
@@ -193,74 +335,27 @@ $(document).on("click", "#btn-add", function (opt) {
 
         if (data != null) {
 
-            let categories = '';
-            for (i = 0; i < data.categories.length; i++) {
-                categories += `${data.categories[i].name}, `
-            }
-            categories = categories.trim().slice(0, -1)
-
-            let found = orderProducts.find(e => e.product.id === data.id);
-
-            if (found) {
-
-                console.log(found)
-
-                const prodRow = $(`#prodRow${data.id} .prodCount`)
-
-                console.log(prodRow)
-
-                found.quantity += 1
-
-                console.log(found.quantity)
-
-                prodRow.html(found.quantity)
-
-                return
-            }
-
-            let orderProduct = {
-                price: data.price,
-                quantity: 1,
-                product: data
-            }
-
-            prodCount++
-
-            orderProducts.push(orderProduct)
-
-            $('#product-list').append(`<tr id="prodRow${data.id}">
-                    <th scope="col">
-                        ${data.name}
-                    </th>
-                    <th scope="col">
-                        R$ ${data.price}
-                    </th>
-                    <th scope="col">
-                        ${data.description == null ? '' : data.description}
-                    </th>
-                    <th scope="col">
-                        ${data.brand.name}
-                    </th>
-                    <th scope="col">
-                        ${categories}
-                    </th>
-                    <th scope="col">
-                        ${data.refundable == true ? 'Sim' : 'Não'}
-                    </th>
-                    <th scope="col" class="prodCount">
-                        1
-                    </th>
-                    <th scope="col" class="text-center">
-                        <button class="btn border btn-remove" type="button" productId="${data.id}">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </th>
-                </tr>`)
+            fillProduct(data);
 
         }
     })
 
 })
+
+function resetAllFields(btn) {
+    if (btn != null) {
+        $(btn).toggleClass('d-none')
+    }
+    $('#orderDate').val(localDateTime)
+    $('#form input').val('')
+    $('#email').val('')
+    $('#btn-save').val('update')
+    $('#btn-save').html('Cadastrar')
+    $('#cancelled').val('false').change()
+    orderProducts = []
+    order = []
+    $('#product-list').html('')
+}
 
 $(document).on("click", ".btn-remove", function (event) {
 
@@ -272,7 +367,7 @@ $(document).on("click", ".btn-remove", function (event) {
         return
     }
 
-    
+
     const found = orderProducts[foundIndex]
 
     if (found.quantity == 1) {
@@ -296,15 +391,22 @@ $(function () {
         let orderDate = $('#orderDate').val()
         let customer = $('#customer').val()
         let cancelled = $('#cancelled').val()
+        let id = null
+        if ($('#id').val() != '') {
+            id = $('#id').val()
+        }
+        console.log($('#id').val())
 
-        let order = {
+        order = {
+            id: id,
             orderProducts: orderProducts,
             customer: { id: customer },
             cancelled: cancelled,
             orderDateTime: orderDate
         }
-        console.log(orderProducts)
-        //createOrder()
+        console.log(order)
+        createOrder()
+        resetAllFields()
     })
 
     debounceInput('#product-search', 500, function (str) {
@@ -337,15 +439,13 @@ $(function () {
     })
 
     $('#btn-cancel').on("click", function (event) {
-        $('#form input').val('')
-        $('#email').val('')
-        $(this).toggleClass('d-none')
-        $('#btn-save').val('update')
-        $('#btn-save').html('Cadastrar')
+        resetAllFields(this);
     })
 
     fillCustomers('customer');
 
     updateTable();
+
+    $('#orderDate').val(localDateTime);
 
 })

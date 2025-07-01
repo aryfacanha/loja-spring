@@ -30,9 +30,8 @@ public class OrderProduct {
   private Integer id;
   @Column(nullable = false)
   private String price;
-  @Column(nullable = false)
-  private Double amount;
   private LocalDate refundDateTime;
+  @Column(nullable = false)
   private Integer quantity;
   @ManyToOne
   @JoinColumn(name = "product_id")
@@ -42,9 +41,8 @@ public class OrderProduct {
   @JoinColumn(name = "order_id")
   private Order order;
 
-  public OrderProduct(String price, Double amount, LocalDate refundDateTime, Product product, Order order, Integer quantity) {
+  public OrderProduct(String price, LocalDate refundDateTime, Product product, Order order, Integer quantity) {
     this.price = price;
-    this.amount = amount;
     this.refundDateTime = refundDateTime;
     this.product = product;
     this.order = order;

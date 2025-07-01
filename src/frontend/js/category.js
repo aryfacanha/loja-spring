@@ -113,7 +113,7 @@ function deleteCategory(categoryId) {
     }).done(
         function () {
             alert("Categoria Deletada")
-            getCategories();
+            updateTable()
         }
     ).fail(function (xhr, status, error) {
         let message = "Erro desconhecido";

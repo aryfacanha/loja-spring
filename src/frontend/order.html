@@ -31,7 +31,7 @@
                 <input type="hidden" name="id" id="id">
                 <div class="col-auto">
                     <div class="form-floating col-auto">
-                        <input type="date" class="form-control" name="orderDate" id="orderDate" placeholder=""
+                        <input type="datetime-local" class="form-control" name="orderDate" id="orderDate" placeholder=""
                             required>
                         <label for="name">Data: </label>
                     </div>
@@ -46,8 +46,9 @@
                 <div class="col-auto">
                     <label for="name">Cancelado </label>
                     <select class="form-control" name="cancelled" id="cancelled">
+                        <option value="false">Não</option>
                         <option value="true">Sim</option>
-                        <option value="false" checked>Não</option>
+                  
                     </select>
 
                 </div>
@@ -62,7 +63,7 @@
             <div class="row align-items-center mt-2">
                 <div class="col-auto">
                     <div class="form-floating col-auto">
-                        <input type="text" class="form-control" id="product-search" placeholder="" required>
+                        <input type="text" class="form-control" id="product-search" placeholder="">
                         <label for="name">Produtos: </label>
                     </div>
                 </div>
@@ -129,22 +130,16 @@
                     ID
                 </th>
                 <th scope="col">
-                    Nome
+                    Cliente
                 </th>
                 <th scope="col">
-                    Preço
+                    Data Compra
                 </th>
                 <th scope="col">
-                    Descrição
+                    Produtos
                 </th>
                 <th scope="col">
-                    Marca
-                </th>
-                <th scope="col">
-                    Categorias
-                </th>
-                <th scope="col">
-                    Reembolsável
+                    Cancelado
                 </th>
                 <th scope="col">
                 </th>
