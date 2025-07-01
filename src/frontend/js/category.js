@@ -6,7 +6,7 @@ function createCategory() {
     }).done(
         function () {
             alert("Categoria cadastrada")
-            updateTable();
+            location.reload()
         }
     ).fail(function (xhr, status, error) {
         let message = "Erro desconhecido";

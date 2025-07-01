@@ -6,7 +6,7 @@ function createBrand() {
     }).done(
         function () {
             alert("Marca cadastrada")
-            updateTable();
+            location.reload()
         }
     ).fail(function (xhr, status, error) {
         let message = "Erro desconhecido";

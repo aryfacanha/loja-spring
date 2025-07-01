@@ -44,13 +44,16 @@ function updateTable() {
 
                 for (j = 0; j < order.orderProducts.length; j++) {
                     let op = order.orderProducts[j]
-                    orderProducts += `(${op.quantity}) ${op.product.name}, `
+                    orderProducts += `(${op.quantity}) R$ ${op.product.price.toFixed(2)} ${op.product.name}, `
                 }
 
                 orderProducts = orderProducts.trim().slice(0, -1)
                 $('#orders').append(`<tr>
                     <th scope="col">
                         <div>${order.id}</div>
+                    </th>
+                    <th scope="col">
+                    R$ ${order.total.toFixed(2)}
                     </th>
                     <th scope="col">
                         ${order.customer.name}
