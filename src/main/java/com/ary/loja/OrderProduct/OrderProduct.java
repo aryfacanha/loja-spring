@@ -29,7 +29,7 @@ public class OrderProduct {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
   @Column(nullable = false)
-  private String price;
+  private Double price;
   private LocalDate refundDateTime;
   @Column(nullable = false)
   private Integer quantity;
@@ -41,7 +41,7 @@ public class OrderProduct {
   @JoinColumn(name = "order_id")
   private Order order;
 
-  public OrderProduct(String price, LocalDate refundDateTime, Product product, Order order, Integer quantity) {
+  public OrderProduct(Double price, LocalDate refundDateTime, Product product, Order order, Integer quantity) {
     this.price = price;
     this.refundDateTime = refundDateTime;
     this.product = product;

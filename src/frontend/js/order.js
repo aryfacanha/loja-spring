@@ -449,3 +449,27 @@ $(function () {
     $('#orderDate').val(localDateTime);
 
 })
+
+function loadDashboard() {
+    let month = $('#month').val();
+    let year = $('#year').val();
+
+    $.ajax({
+        url: `http://localhost:8080/api/order/stats/${year}/${month}`,
+        method: 'GET',
+    }).done(function (data) {
+        $('#avg-sale').text(data.avg !== null ? data.avg.toFixed(2) : '--');
+        $('#max-sale').text(data.max !== null ? data.max.toFixed(2) : '--');
+        $('#min-sale').text(data.min !== null ? data.min.toFixed(2) : '--');
+    }).fail(function (xhr, status, error) {
+        let message = "Erro desconhecido";
+        if (xhr.responseJSON && xhr.responseJSON.message) {
+            message = xhr.responseJSON.message;
+        } else if (xhr.responseText) {
+            message = xhr.responseText;
+        }
+        alert("Erro ao carregar dashboard: " + message);
+    });
+}
+
+

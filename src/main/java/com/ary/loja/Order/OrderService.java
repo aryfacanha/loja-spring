@@ -1,6 +1,8 @@
 package com.ary.loja.order;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -24,10 +26,24 @@ public class OrderService {
     }
 
     public List<Order> getAll() {
-        return (List<Order>)orderRepository.findAll();
+        return (List<Order>) orderRepository.findAll();
     }
 
     public void deleteOrder(Integer id) {
         orderRepository.deleteById(id);
     }
+
+    public Map<String, Double> getStatsByMonthAndYear(int year, int month) {
+        Double avg = orderRepository.findAverageSale(year, month);
+        Double max = orderRepository.findMaxSale(year, month);
+        Double min = orderRepository.findMinSale(year, month);
+
+        Map<String, Double> stats = new HashMap<>();
+        stats.put("avg", avg != null ? avg : 0.0);
+        stats.put("max", max != null ? max : 0.0);
+        stats.put("min", min != null ? min : 0.0);
+
+        return stats;
+    }
+
 }

@@ -5,8 +5,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.ary.loja.customer.Customer;
 import com.ary.loja.orderproduct.OrderProduct;
 import com.fasterxml.jackson.annotation.JsonFormat;

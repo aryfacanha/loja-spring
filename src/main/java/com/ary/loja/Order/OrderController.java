@@ -1,6 +1,7 @@
 package com.ary.loja.order;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,13 +14,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @CrossOrigin(origins = "*")
 @RestController
 @AllArgsConstructor
 @RequestMapping(path = "/api/order")
 public class OrderController {
-    
+
     private final OrderService orderService;
 
     @GetMapping("/{id}")
@@ -32,7 +32,7 @@ public class OrderController {
         return orderService.getAll();
     }
 
-    @PostMapping 
+    @PostMapping
     public void addNewOrder(@RequestBody Order order) {
         order.setOrderProducts(order.getOrderProducts());
         orderService.addOrder(order);
@@ -42,4 +42,10 @@ public class OrderController {
     public void deleteOrder(@PathVariable Integer id) {
         orderService.deleteOrder(id);
     }
+
+    @GetMapping("/stats/{year}/{month}")
+    public Map<String, Double> getStats(@PathVariable int year, @PathVariable int month) {
+        return orderService.getStatsByMonthAndYear(year, month);
+    }
+
 }
